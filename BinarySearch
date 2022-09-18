@@ -1,0 +1,33 @@
+// Searching
+
+public class Solution {
+    public static int BinarySearch(int arr[], int lower, int upper, int mid, int e)
+    {
+        int index = -1;
+        while(lower<=upper)
+        {
+            if(arr[mid]==e)
+                return mid;
+            else if(e<arr[mid])
+                upper = mid-1;
+            else
+                lower = mid+1;
+            mid = (lower+upper)/2;
+        }
+        return index;
+    }
+    
+    // Driver Code
+    public static void main(String []a){
+        int mid, lower, upper, index;
+        // Input:
+        int[] arr = {2, 4, 8, 33, 45, 62, 88, 101, 222};
+        lower = 0;
+        upper = arr.length-1;
+        mid = (lower + upper)/ 2;
+        index = BinarySearch(arr,lower,upper,mid,45);
+        System.out.println(index==-1?"False":"Found at index "+index);
+        index = BinarySearch(arr,lower,upper,mid,100);
+        System.out.println(index==-1?"False":"Found at index "+index);
+    }
+}

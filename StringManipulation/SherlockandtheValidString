@@ -1,0 +1,122 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+class Result {
+
+    /*
+     * Complete the 'isValid' function below.
+     *
+     * The function is expected to return a STRING.
+     * The function accepts STRING s as parameter.
+     */
+
+    public static String isValid(String s) {
+    // Write your code here
+    String answer = "NO"; // Default answer
+    Deque<Integer> q = new ArrayDeque<>(); // A queue
+    HashMap<Character, Integer> map = new HashMap<>(); // Character frequency mapping
+    for(char ch: s.toCharArray())
+    {
+        if(map.containsKey(ch))
+        {
+            int count = map.get(ch);
+            count++;
+            map.put(ch,count);
+        }
+        else
+        {
+            map.put(ch,1);
+        }
+    }
+    
+    if(map.size()==1)
+        return "YES";
+    
+    // Check if all frequency are equal
+    for(int x: map.values())
+    {
+        if(q.isEmpty())
+            q.addLast(x);
+        else
+        {
+            int prev = q.peekLast();
+            if(prev!=x)
+                break;
+            else
+                q.addLast(x);
+        }
+    }
+    if(map.size()==q.size())
+        return "YES";
+        
+    // Debug
+    System.out.println(map);
+    System.out.println(q);
+    
+    //Create frequency map  
+    HashMap<Integer, Integer> fmap = new HashMap<>();
+    for(int x: map.values())
+    {
+        if(fmap.containsKey(x))
+        {
+            int count = fmap.get(x);
+            count++;
+            fmap.put(x,count);
+        }
+        else
+        {
+            fmap.put(x,1);
+        }
+    }
+    int[] farr=new int[2];
+    if(fmap.size()==2)
+    {
+        int i=0;
+        for(int x:fmap.keySet())
+        {
+            farr[i]=x;
+            i++;
+        }
+        if(farr[0]>farr[1])
+        {
+            if(farr[0]-farr[1]==1 && fmap.get(farr[0])==1)
+                return "YES";
+        }else{
+            if(farr[1]-farr[0]==1 && fmap.get(farr[1])==1)
+                return "YES";
+        }
+        if(farr[0]==1 && fmap.get(farr[0])==1)
+            return "YES";
+        if(farr[1]==1 && fmap.get(farr[1])==1)
+            return "YES";
+            
+    }
+    System.out.println(fmap);
+    
+    return answer;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        String result = Result.isValid(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+   

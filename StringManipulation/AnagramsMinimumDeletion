@@ -1,0 +1,107 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+class Result {
+
+    /*
+     * Complete the 'makeAnagram' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. STRING a
+     *  2. STRING b
+     */
+
+    public static int makeAnagram(String a, String b) {
+    int del = 0;
+    // Create map for a
+    HashMap<Character, Integer> mapping_a = new HashMap<>();
+    for(int i=0; i<a.length(); i++)
+    {
+        char ch = a.charAt(i);
+        if(!mapping_a.containsKey(ch))
+        {
+            mapping_a.put(ch, 1);
+        }
+        else
+        {
+            int count = mapping_a.get(ch);
+            count++;
+            mapping_a.put(ch, count);
+        }    
+    }
+    // Create map for b
+    HashMap<Character, Integer> mapping_b = new HashMap<>();
+    for(int i=0; i<b.length(); i++)
+    {
+        char ch = b.charAt(i);
+        if(!mapping_b.containsKey(ch))
+        {
+            mapping_b.put(ch, 1);
+        }
+        else
+        {
+            int count = mapping_b.get(ch);
+            count++;
+            mapping_b.put(ch, count);
+        }    
+    }
+    
+    for(Character ch: mapping_a.keySet())
+    {
+        if(mapping_b.containsKey(ch))
+        {
+            int count_a = mapping_a.get(ch);
+            int count_b = mapping_b.get(ch);
+            if(count_a>count_b)
+            {
+                del += (count_a-count_b);
+            }
+            if(count_a<count_b)
+            {
+                del += (count_b-count_a);
+            }
+            
+        }
+        else
+        {
+            del += mapping_a.get(ch);
+        }
+    }
+    
+    for(Character ch: mapping_b.keySet())
+    {
+        if(!mapping_a.containsKey(ch))
+        {
+            del += mapping_b.get(ch);
+            
+        }
+    }
+    
+    return del;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String a = bufferedReader.readLine();
+
+        String b = bufferedReader.readLine();
+
+        int res = Result.makeAnagram(a, b);
+
+        bufferedWriter.write(String.valueOf(res));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}

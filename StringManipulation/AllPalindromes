@@ -1,0 +1,48 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+
+class HelloWorld {
+    public static boolean palindrome(String s)
+    {
+        if(s.length()==1)
+            return true;
+        else if(s.length()==2)
+        {
+            if(s.charAt(0)==s.charAt(1))
+                return true;
+            else
+                return false;
+        }
+        else
+        {
+            // if all characters are equal
+            int flag = 1;
+            for(int i=0; i<s.length()-1; i++)
+            {
+                if(s.charAt(i)!=s.charAt(i+1))
+                {
+                    flag = 0;
+                }
+            }
+            if(flag==1)
+                return true;
+            
+            // if middle character is different
+            if((s.length()%2)!=0)
+            {
+                int mid = s.length()/2;
+                String prefix = s.substring(0,mid);
+                String suffix = s.substring(mid+1,s.length());
+                System.out.print(prefix+","+suffix);
+                if(prefix.equals(suffix))
+                    return true;
+            }
+            return false;
+        }
+    }
+    public static void main(String[] args) {
+       String s ="aaabaaa";
+       System.out.println(palindrome(s));
+    }
+}
